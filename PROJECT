@@ -1,0 +1,13 @@
+domain: my.domain
+repo: my.domain/etcd
+resources:
+- group: devops
+  kind: Etcd
+  version: v1
+- group: devops
+  kind: EtcdDump
+  version: v1
+- group: devops
+  kind: EtcdRestore
+  version: v1
+version: "2"

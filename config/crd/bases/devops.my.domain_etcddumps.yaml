@@ -1,0 +1,135 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: etcddumps.devops.my.domain
+spec:
+  group: devops.my.domain
+  names:
+    kind: EtcdDump
+    listKind: EtcdDumpList
+    plural: etcddumps
+    singular: etcddump
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: EtcdDump is the Schema for the etcddumps API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: EtcdDumpSpec defines the desired state of EtcdDump
+          properties:
+            clusterReference:
+              type: string
+            scheduler:
+              type: string
+            storgae:
+              description: StorageProvider defines the configuration for storing a
+                Backup in a storage service.
+              properties:
+                qiniu:
+                  description: TODO expensions another storage
+                  properties:
+                    accessKey:
+                      type: string
+                    api:
+                      type: string
+                    bucket:
+                      type: string
+                    io:
+                      type: string
+                    secretKey:
+                      type: string
+                    up:
+                      type: string
+                  type: object
+                s3:
+                  description: S3StorageProvider represents an S3 compatible bucket
+                    for storing Backups.
+                  properties:
+                    bucket:
+                      description: Bucket in which to store the Backup.
+                      type: string
+                    credentialsSecret:
+                      description: CredentialsSecret is a reference to the Secret
+                        containing the credentials authenticating with the S3 compatible
+                        storage service.
+                      properties:
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                      type: object
+                    endpoint:
+                      description: Endpoint (hostname only or fully qualified URI)
+                        of S3 compatible storage service.
+                      type: string
+                    forcePathStyle:
+                      description: ForcePathStyle when set to true forces the request
+                        to use path-style addressing, i.e., `http://s3.amazonaws.com/BUCKET/KEY`.
+                        By default, the S3 client will use virtual hosted bucket addressing
+                        when possible (`http://BUCKET.s3.amazonaws.com/KEY`).
+                      type: boolean
+                    region:
+                      description: Region in which the S3 compatible bucket is located.
+                      type: string
+                  type: object
+              type: object
+          required:
+          - clusterReference
+          - storgae
+          type: object
+        status:
+          description: EtcdDumpStatus defines the observed state of EtcdDump
+          properties:
+            conditions:
+              items:
+                properties:
+                  lastedTranslationTime:
+                    format: date-time
+                    type: string
+                  location:
+                    type: string
+                  message:
+                    type: string
+                  ready:
+                    type: boolean
+                  reason:
+                    type: string
+                required:
+                - lastedTranslationTime
+                - ready
+                type: object
+              type: array
+            phase:
+              type: string
+          required:
+          - phase
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

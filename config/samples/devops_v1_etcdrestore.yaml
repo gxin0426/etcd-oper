@@ -1,0 +1,7 @@
+apiVersion: devops.my.domain/v1
+kind: EtcdRestore
+metadata:
+  name: etcdrestore-sample
+spec:
+  # Add fields here
+  foo: bar
